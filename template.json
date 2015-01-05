@@ -29,15 +29,15 @@
 	{
 	    "type": "virtualbox-iso",
 	    "boot_command": [
-		"<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+		"<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart/ks.cfg repo=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ol6<enter><wait>"
 	    ],
 	    "boot_wait": "10s",
 	    "disk_size": 102400,
 	    "guest_os_type": "Oracle_64",
 	    "http_directory": "http",
-	    "iso_checksum": "774fb999e4ed43341dcdf5ebc0d48f42" ,
+            "iso_checksum": "43cbce2427f3986a3614d6997dd742b3",
 	    "iso_checksum_type": "md5",
-	    "iso_url": "./ol6.iso",
+	    "iso_url": "./ol6_uek.iso",
 	    "ssh_username": "vagrant",
 	    "ssh_password": "vagrant",
 	    "ssh_port": 22,
@@ -46,7 +46,7 @@
 	    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
 	    "virtualbox_version_file": ".vbox_version",
 	    "vboxmanage": [
-		[ "modifyvm", "{{.Name}}", "--memory", "512" ],
+		[ "modifyvm", "{{.Name}}", "--memory", "1024" ],
 		[ "modifyvm", "{{.Name}}", "--cpus", "1" ]
 	    ]
 	}
