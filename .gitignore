@@ -8,3 +8,8 @@
 /validate.hwm
 /validate.pwd
 /validate.pwi
+/.vagrant/
+/package.box
+/packages
+/remove_these_packages
+/typescript
