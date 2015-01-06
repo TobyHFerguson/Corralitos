@@ -1,0 +1,24 @@
+#+TITLE: Oracle Linux 6U5 Minimal BTRFS UEK Build
+* Overview
+This build will construct an OL6U5 vagrant box with the following properties:
++ Minimal
++ Btrfs / filesystem
++ UEK
+* Operation
+Mount the ol6 iso thus:
+#+BEGIN_SRC sh
+sudo mount -o loop /net/qnap1/Public/ISOs/OL6U5-X86_64-V41362-01.iso http/ol6
+#+END_SRC
+Build thus:
+#+BEGIN_SRC sh
+~/packer/packer build template.json
+#+END_SRC
+This will build a box in the current directory called =ol6u5-minimal-btrfs-uek.box=
+Push the built box to Atlas thus:
+#+BEGIN_SRC sh
+vagrant push
+#+END_SRC
+Replace the current box thus:
+#+BEGIN_SRC sh
+vagrant box add --force ol6u5-minimal-btrfs-uek ol6u5-minimal-btrfs-uek.box
+#+END_SRC

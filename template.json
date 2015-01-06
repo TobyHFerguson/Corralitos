@@ -20,7 +20,7 @@
 	    "type": "vagrant",
 	    "override": {
 		"virtualbox": {
-		    "output": "oracle-6-5-x64-virtualbox.box"
+		    "output": "ol6u5-minimal-btrfs-uek.box"
 		}
 	    }
 	}
@@ -37,7 +37,7 @@
 	    "http_directory": "http",
             "iso_checksum": "43cbce2427f3986a3614d6997dd742b3",
 	    "iso_checksum_type": "md5",
-	    "iso_url": "./ol6_uek.iso",
+	    "iso_url": "file:///net/qnap1/Public/ISOs/OL6U5-X86_64-UEK-Boot-V41364-01.iso",
 	    "ssh_username": "vagrant",
 	    "ssh_password": "vagrant",
 	    "ssh_port": 22,
@@ -48,7 +48,8 @@
 	    "vboxmanage": [
 		[ "modifyvm", "{{.Name}}", "--memory", "1024" ],
 		[ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-	    ]
+	    ],
+	    "vm_name": "ol6u5-minimal-btrfs-uek"
 	}
     ]
 }

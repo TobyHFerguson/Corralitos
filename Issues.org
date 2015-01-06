@@ -1,6 +1,13 @@
 #+TITLE: Issues
 
-* TODO Ensure Guest Additions gets added #1
+* DONE Ensure Guest Additions gets added #1
+CLOSED: [2015-01-06 Tue 07:19]
+:LOGBOOK:  
+- CLOSING NOTE [2015-01-06 Tue 07:19] \\
+  The issues is that the kernel used to boot from is not the kernel subsequently installed.
+  
+  So the =base.sh= script adds the necessary packages
+:END:      
 At the moment Guest Additions fails to get added to the built system.
 
 The result I'm seeing is here:
@@ -144,9 +151,40 @@ I do see that the =kernel-devel-2.6.32-431.el6.x86_64= package is installed.
 
 I see that the kickstart file includes the UEKR3 repo, but doesn't attempt to install the =kernel-uek-devel= or =kernel-uek-headers= files - maybe that'll do the trick ...
 
-* TODO Reduce number of rpms down to a minimum
+* DONE Reduce number of rpms down to a minimum
+CLOSED: [2015-01-06 Tue 07:18]
+:LOGBOOK:  
+- CLOSING NOTE [2015-01-06 Tue 07:18] \\
+  The trick is to add =--nobase= to %packages section
+:END:      
 Currently 414 rpms are being loaded. I *think* I can reduce this by adding =--nodefaults= to the =@core= package selection
 
 Failing that I should examine what packages were used in ol6minimal - that was created by hand and used the 'Minimal' setting during install.
 
 I can probably add =--excludedocs==
+
+
+* DONE I want to make this a minimal install using btrfs
+CLOSED: [2015-01-06 Tue 07:21]
+:LOGBOOK:  
+- CLOSING NOTE [2015-01-06 Tue 07:21]
+:END:      
+I need to boot from the UEK boot iso, and have the ol6 iso available via http
+
+I shall make the kickstart file available at =http://localhost/kickstart/ks.cfg= and the iso available at =http://localhost/ol6=
+
+I boot using the following line:
+
+#+BEGIN_SRC 
+ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart/ks.cfg repo=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ol6
+#+END_SRC
+
+However this does require me to locally mount the ol6 iso.
+
+I learnt from Ryan Chouinard that all the OL6 distributions are also available online at http://mirrors.dotsrc.org/oracle-linux/OL6/U6/x86_64/ - this is fantastic, as it means I can now point others to this source!
+
+But this won't work directly - I can use it for the boot iso location, but not as the installation location - the installation tree needs to be an expanded fileset, not an ISO.
+
+Even using the =repo=nfsiso:...= construct doesn't work for OL6. The remote repo has to be an installation tree, not an iso, unfortunately.
+
+
