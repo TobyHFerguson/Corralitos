@@ -1,5 +1,5 @@
 #+TITLE: Issues
-
+#+STARTUP: nologdone
 * DONE Ensure Guest Additions gets added #1
 CLOSED: [2015-01-06 Tue 07:19]
 :LOGBOOK:  
@@ -191,6 +191,8 @@ CLOSED: [2015-01-07 Wed 11:04]
 :LOGBOOK:  
 - CLOSING NOTE [2015-01-07 Wed 11:04] \\
   Updated the README.org file
-:END:      
+:END:
 
+* TODO #4 Replace mounted iso with cd iso
+I need to add the ol6.iso as the second cd, and to alter the keyboard command to use that repo
 
