@@ -1,10 +1,12 @@
 #+TITLE: Oracle Linux 6U5 Minimal BTRFS UEK Build
+#+STARTUP: showall nohideblocks
 * Overview
 This build will construct an OL6U5 vagrant box with the following properties:
 + Minimal
 + Btrfs / filesystem
 + UEK
 * Operation
+** Building the box
 Mount the ol6 iso thus:
 #+BEGIN_SRC sh
 sudo mount -o loop /net/qnap1/Public/ISOs/OL6U5-X86_64-V41362-01.iso http/ol6
@@ -14,11 +16,32 @@ Build thus:
 ~/packer/packer build template.json
 #+END_SRC
 This will build a box in the current directory called =ol6u5-minimal-btrfs-uek.box=
-Push the built box to Atlas thus:
+** Publishing the box
+*** Locally
+#+BEGIN_SRC sh
+vagrant box add --force ol6u5-minimal-btrfs-uek ol6u5-minimal-btrfs-uek.box
+#+END_SRC
+*** To =tobyhferguson.org=
+#+BEGIN_SRC sh
+scp ol6u5-minimal-btrfs-uek.box tobyhfer@tobyhferguson.org
+#+END_SRC
+*** To =Atlas=
+I don't think this works yet.
 #+BEGIN_SRC sh
 vagrant push
 #+END_SRC
-Replace the current box thus:
-#+BEGIN_SRC sh
-vagrant box add --force ol6u5-minimal-btrfs-uek ol6u5-minimal-btrfs-uek.box
+** Access the box
+*** From =tobyhferguson.org=
+Add the following in your =Vagrantfile= to download from =tobyhferguson.org=
+#+BEGIN_SRC ruby
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ol6u5-minimal-btrfs-uek"
+  config.vm.box_url = "http://tobyhferguson.org/oracle-6-5-x64-virtualbox.box"
+end
+#+END_SRC
+*** From =Atlas=
+#+BEGIN_SRC ruby
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "tobyhferguson/ol6u5-minimal-btrfs-uek"
+end
 #+END_SRC

@@ -163,7 +163,6 @@ Failing that I should examine what packages were used in ol6minimal - that was c
 
 I can probably add =--excludedocs==
 
-
 * DONE I want to make this a minimal install using btrfs
 CLOSED: [2015-01-06 Tue 07:21]
 :LOGBOOK:  
@@ -186,5 +185,12 @@ I learnt from Ryan Chouinard that all the OL6 distributions are also available o
 But this won't work directly - I can use it for the boot iso location, but not as the installation location - the installation tree needs to be an expanded fileset, not an ISO.
 
 Even using the =repo=nfsiso:...= construct doesn't work for OL6. The remote repo has to be an installation tree, not an iso, unfortunately.
+
+* DONE Add scp capability to copy artefacts to tobyhferguson.org
+CLOSED: [2015-01-07 Wed 11:04]
+:LOGBOOK:  
+- CLOSING NOTE [2015-01-07 Wed 11:04] \\
+  Updated the README.org file
+:END:      
 
 
