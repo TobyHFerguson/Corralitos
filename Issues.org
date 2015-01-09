@@ -192,10 +192,8 @@ CLOSED: [2015-01-07 Wed 11:04]
 - CLOSING NOTE [2015-01-07 Wed 11:04] \\
   Updated the README.org file
 :END:
-* TODO #4 Replace mounted iso with cd iso
+* DONE #4 Replace mounted iso with cd iso
 I need to add the ol6.iso as the second cd, and to alter the keyboard command to use that repo
-
-I need to test this release out to ensure it works properly. 
 * TODO #5 Make a template that ensures that the image is up to date
 Need to do two things:
 + Update and then delete any old packages
