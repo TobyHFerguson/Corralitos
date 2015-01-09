@@ -1,8 +1,15 @@
 {
+    "variables": {
+	"uek_iso_url": "file:///net/qnap1/Public/ISOs/OL6U5-X86_64-UEK-Boot-V41364-01.iso",
+	"uek_iso_checksum": "43cbce2427f3986a3614d6997dd742b3",
+	"uek_iso_checksum_type": "md5",
+	"install_iso_file": "/net/qnap1/Public/ISOs/OL6U5-X86_64-V41362-01.iso",
+	"name": "ol6u5-minimal-btrfs-uek"
+    },
     "provisioners": [
 	{
 	    "type": "shell",
-	    "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
+	    "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'",
 	    "override": {
 		"virtualbox-iso": {
 		    "scripts": [
@@ -20,7 +27,7 @@
 	    "type": "vagrant",
 	    "override": {
 		"virtualbox": {
-		    "output": "ol6u5-minimal-btrfs-uek.box"
+		    "output": "{{user `name`}}.box"
 		}
 	    }
 	}
@@ -29,15 +36,15 @@
 	{
 	    "type": "virtualbox-iso",
 	    "boot_command": [
-		"<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart/ks.cfg repo=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ol6<enter><wait>"
+		"<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart/ks.cfg<enter><wait>"
 	    ],
 	    "boot_wait": "10s",
 	    "disk_size": 102400,
 	    "guest_os_type": "Oracle_64",
 	    "http_directory": "http",
-            "iso_checksum": "43cbce2427f3986a3614d6997dd742b3",
-	    "iso_checksum_type": "md5",
-	    "iso_url": "file:///net/qnap1/Public/ISOs/OL6U5-X86_64-UEK-Boot-V41364-01.iso",
+            "iso_checksum": "{{user `uek_iso_checksum`}}",
+	    "iso_checksum_type": "{{user `uek_iso_checksum_type`}}",
+	    "iso_url": "{{user `uek_iso_url`}}",
 	    "ssh_username": "vagrant",
 	    "ssh_password": "vagrant",
 	    "ssh_port": 22,
@@ -46,10 +53,15 @@
 	    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
 	    "virtualbox_version_file": ".vbox_version",
 	    "vboxmanage": [
-		[ "modifyvm", "{{.Name}}", "--memory", "1024" ],
-		[ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-	    ],
-	    "vm_name": "ol6u5-minimal-btrfs-uek"
+		[ "modifyvm", "{{.Name}}", "--memory", "1024", "--vram", "10" ]
+		, [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+		, [ "storageattach", "{{.Name}}", "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "{{user `install_iso_file`}}" ]
+	    ]
+	    ,"vboxmanage_post": [
+		["storageattach", "{{.Name}}", "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "none" ]
+		,["closemedium", "dvd", "{{user `install_iso_file`}}"]
+	    ] 
+	    , "vm_name": "{{user `name`}}"
 	}
     ]
 }

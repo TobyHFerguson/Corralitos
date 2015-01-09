@@ -7,10 +7,6 @@ This build will construct an OL6U5 vagrant box with the following properties:
 + UEK
 * Operation
 ** Building the box
-Mount the ol6 iso thus:
-#+BEGIN_SRC sh
-sudo mount -o loop /net/qnap1/Public/ISOs/OL6U5-X86_64-V41362-01.iso http/ol6
-#+END_SRC
 Build thus:
 #+BEGIN_SRC sh
 ~/packer/packer build template.json
@@ -23,7 +19,7 @@ vagrant box add --force ol6u5-minimal-btrfs-uek ol6u5-minimal-btrfs-uek.box
 #+END_SRC
 *** To =tobyhferguson.org=
 #+BEGIN_SRC sh
-scp ol6u5-minimal-btrfs-uek.box tobyhfer@tobyhferguson.org
+scp ol6u5-minimal-btrfs-uek.box tobyhfer@tobyhferguson.org:public_html/
 #+END_SRC
 *** To =Atlas=
 I don't think this works yet.
