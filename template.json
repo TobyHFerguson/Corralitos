@@ -1,10 +1,10 @@
 {
     "variables": {
-	"uek_iso_url": "file:///net/qnap1/Public/ISOs/OL6U5-X86_64-UEK-Boot-V41364-01.iso",
-	"uek_iso_checksum": "43cbce2427f3986a3614d6997dd742b3",
-	"uek_iso_checksum_type": "md5",
-	"install_iso_file": "/net/qnap1/Public/ISOs/OL6U5-X86_64-V41362-01.iso",
-	"name": "ol6u5-minimal-btrfs-uek"
+	"uek_iso_url": "http://mirrors.dotsrc.org/oracle-linux/OL6/U5/x86_64/x86_64-boot-uek.iso"
+	, "uek_iso_checksum": "7995ee8c6b5b55aba13df0e292139b3efa8f415e",
+	"uek_iso_checksum_type": "sha1"
+	, "install_iso_file": "OracleLinux-R6-U5-Server-x86_64-dvd.iso"
+	, "name": "ol6u5-minimal-btrfs-uek"
     },
     "provisioners": [
 	{
