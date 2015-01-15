@@ -42,6 +42,10 @@ These variables can be overwritten at run-time. For example, to change the defau
 #+BEGIN_SRC sh
 packer build -var 'name=myvm' template.json
 #+END_SRC
+To use the =local_vars= file to supply variables which are good for me in my environment:
+#+BEGIN_SRC sh
+packer build -var-file=local_vars template.json
+#+END_SRC
 ** Building the box
 Build thus:
 #+BEGIN_SRC sh
