@@ -1,7 +1,7 @@
-#+TITLE: Oracle Linux 6U5 Minimal BTRFS UEK Build
+#+TITLE: Oracle Linux 6 Minimal BTRFS UEK Build
 #+STARTUP: showall nohideblocks
 * Overview
-This build will construct (using [[http://packer.io][Packer]]) an OL6U5 [[http://vagrantup.com][Vagrant]] box with the following properties:
+This build will construct (using [[http://packer.io][Packer]]) an Oracle Linux [[http://vagrantup.com][Vagrant]] box with the following properties:
 + Minimal
 + Btrfs / filesystem
 + UEK
@@ -9,77 +9,61 @@ This build will construct (using [[http://packer.io][Packer]]) an OL6U5 [[http:/
 You need to install [[http://packer.io][Packer]],  [[http://vagrantup.com][Vagrant]]  and [[http://VirtualBox.org][VirtualBox]] to perform the build.
 
 The software to install Oracle Linux using btrfs as the root file system comes in two isos.
-+ The boot iso can be accessed remotely via http, or downloaded locally (Packer will cache the http downloaded copy locally, so storing locally is only necessary if multiple /different/ builds will use the same iso
-+ the install iso /must/ be downloaded and accessed via the file system (it can be NFS mounted and it can be a symbolic link, but must be accessible as a file on the file system).
++ The boot iso (=x86_64-boot-uek.iso=)can be accessed remotely via http, or downloaded locally (Packer will cache the http downloaded copy locally, so storing locally is only necessary if multiple /different/ builds will use the same iso
++ the install iso (=OracleLinux-R6-UN-Server-x86_64-dvd.iso=, where N is one of 4, 5 or 6) /must/ be downloaded and accessed via the file system (it can be NFS mounted and it can be a symbolic link, but must be accessible as a file on the file system).
 
-The URLs and their sha1 checksums are:
-| URL                                     | sha1                                     |
-| [[http://mirrors.dotsrc.org/oracle-linux/OL6/U5/x86_64/x86_64-boot-uek.iso][x86_64-boot-uek.iso]]                     | 7995ee8c6b5b55aba13df0e292139b3efa8f415e |
-| [[http://mirrors.dotsrc.org/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso][OracleLinux-R6-U5-Server-x86_64-dvd.iso]] | a65041fbe0ba67e3ff6f5f93804a8f47d5b5f132 |
+The software is available online at http://mirrors.dotsrc.org/oracle-linux/OL6
 
 * Operation
-** Packer Template
-The Packer template (=template.json=) uses variables whose defaults correspond to locating the boot iso remotely, and locating the install iso in the current directory. Running =inspect= reveals the details:
-#+BEGIN_EXAMPLE
-$ packer inspect uek-local.json 
-Optional variables and their defaults:
+** Minor Versions
+We use a single Packer template (=template.json=), passing in the necessary variables whose values change depending on the minor Oracle Linux 6 version to be built. 
 
-  install_iso_file      = OracleLinux-R6-U5-Server-x86_64-dvd.iso
-  name                  = ol6u5-minimal-btrfs-uek
-  uek_iso_checksum      = 7995ee8c6b5b55aba13df0e292139b3efa8f415e
-  uek_iso_checksum_type = sha1
-  uek_iso_url           = http://mirrors.dotsrc.org/oracle-linux/OL6/U5/x86_64/x86_64-boot-uek.iso
+The variables are:
+| Variable              | Description                          |
+|-----------------------+--------------------------------------|
+| uek_iso_url           | URL to UEK boot iso                  |
+| uek_iso_checksum      | UEK boot iso checksum                |
+| uek_iso_checksum_type | Type of checksum (sha1, sha256, md5) |
+| install_iso_file      | File path to install iso file        |
+| minor_version         | Minor Oracle Linux 6 version (4,5,6) |
 
-Builders:
+For each minor version there is a file defining the variables for that minor version. These files have a common name, distinguished by the minor version number. Likewise the boxes that are output from each build share a common name, distinguished by the minor version number. 
 
-  virtualbox-iso
-
-Provisioners:
-
-  shell
-#+END_EXAMPLE
-These variables can be overwritten at run-time. For example, to change the default name to 'myvm':
-#+BEGIN_SRC sh
-packer build -var 'name=myvm' template.json
-#+END_SRC
-To use the =local_vars= file to supply variables which are good for me in my environment:
-#+BEGIN_SRC sh
-packer build -var-file=local_vars template.json
-#+END_SRC
+If the minor version is 'N', then the variable files and the box files would be =ol6uN_vars.json= and =ol6uN-minimal-btrfs-uek.box=, respectively (i.e. for minor version 4 the files would be =ol6u5_vars.json and =ol6u4-minimal-btrfs-uek.box=) 
 ** Building the box
-Build thus:
+For minor version N the command to build the box is:
 #+BEGIN_SRC sh
-packer build template.json
+packer build -var-file=ol6uN_vars.json template.json
 #+END_SRC
-This will build a box in the current directory called =ol6u5-minimal-btrfs-uek.box=
+This will build a box in the current directory called =ol6uN-minimal-btrfs-uek.box=
 ** Publishing and Using the box
 *** To the local Vagrant system
 Publish thus:
 #+BEGIN_SRC sh
-vagrant box add --force ol6u5-minimal-btrfs-uek ol6u5-minimal-btrfs-uek.box
+vagrant box add --force ol6uN-minimal-btrfs-uek ol6uN-minimal-btrfs-uek.box
 #+END_SRC
 Access this box by adding the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
-config.vm.box = "ol6u5-minimal-btrfs-uek"
+config.vm.box = "ol6uN-minimal-btrfs-uek"
 #+END_SRC
 *** To =tobyhferguson.org=
 (This will only work if you have the keys to =tobyhferguson.org=)
 Publish thus:
 #+BEGIN_SRC sh
-scp ol6u5-minimal-btrfs-uek.box tobyhfer@tobyhferguson.org:public_html/
+scp ol6uN-minimal-btrfs-uek.box tobyhfer@tobyhferguson.org:public_html/
 #+END_SRC
 Add the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ol6u5-minimal-btrfs-uek"
-  config.vm.box_url = "http://tobyhferguson.org/oracle-6-5-x64-virtualbox.box"
+  config.vm.box = "ol6uN-minimal-btrfs-uek"
+  config.vm.box_url = "http://tobyhferguson.org/ol6uN-minimal-btrfs-uek.box"
 end
 #+END_SRC
 *** To =Atlas=
-Publish by logging in to the account =tobyhferguson= and uploading the box to =ol6u5-minimal-btrfs-uek=
+Publish by logging in to the account =tobyhferguson= and uploading the box to =ol6uN-minimal-btrfs-uek=
 Add the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "tobyhferguson/ol6u5-minimal-btrfs-uek"
+  config.vm.box = "tobyhferguson/ol6uN-minimal-btrfs-uek"
 end
 #+END_SRC

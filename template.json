@@ -1,10 +1,11 @@
 {
     "variables": {
-	"uek_iso_url": "http://mirrors.dotsrc.org/oracle-linux/OL6/U5/x86_64/x86_64-boot-uek.iso"
-	, "uek_iso_checksum": "7995ee8c6b5b55aba13df0e292139b3efa8f415e",
-	"uek_iso_checksum_type": "sha1"
-	, "install_iso_file": "OracleLinux-R6-U5-Server-x86_64-dvd.iso"
-	, "name": "ol6u5-minimal-btrfs-uek"
+	"uek_iso_url": null
+	, "uek_iso_checksum": null
+	, "uek_iso_checksum_type": null
+	, "install_iso_file": null
+	, "minor_version": null
+
     },
     "provisioners": [
 	{
@@ -27,7 +28,7 @@
 	    "type": "vagrant",
 	    "override": {
 		"virtualbox": {
-		    "output": "{{user `name`}}.box"
+		    "output": "ol6u{{ user `minor_version` }}-minimal-btrfs-uek.box"
 		}
 	    }
 	}
@@ -61,7 +62,7 @@
 		["storageattach", "{{.Name}}", "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "none" ]
 		,["closemedium", "dvd", "{{user `install_iso_file`}}"]
 	    ] 
-	    , "vm_name": "{{user `name`}}"
+	    , "vm_name": "ol6u{{ user `minor_version` }}-minimal-btrfs-uek"
 	}
     ]
 }
