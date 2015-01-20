@@ -1,0 +1,7 @@
+{
+    "uek_iso_url": "http://mirrors.dotsrc.org/oracle-linux/OL6/U6/x86_64/x86_64-boot-uek.iso"
+    , "uek_iso_checksum": "111e134926d27f2c4938c536c2cef215e11feb37"
+    , "uek_iso_checksum_type": "sha1"
+    , "install_iso_file": "OracleLinux-R6-U6-Server-x86_64-dvd.iso"
+    , "minor_version": "6"
+}
