@@ -5,6 +5,8 @@ This build will construct (using [[http://packer.io][Packer]]) an Oracle Linux [
 + Minimal
 + Btrfs / filesystem
 + UEK
+
+Optionally one can choose to build machines that have an http_proxy setup.
 * Software Required
 You need to install [[http://packer.io][Packer]],  [[http://vagrantup.com][Vagrant]]  and [[http://VirtualBox.org][VirtualBox]] to perform the build.
 
@@ -15,21 +17,37 @@ The software to install Oracle Linux using btrfs as the root file system comes i
 The software is available online at http://mirrors.dotsrc.org/oracle-linux/OL6
 
 * Operation
-** Minor Versions
+** Minor Versions and variables
 We use a single Packer template (=template.json=), passing in the necessary variables whose values change depending on the minor Oracle Linux 6 version to be built. 
 
 The variables are:
-| Variable              | Description                          |
-|-----------------------+--------------------------------------|
-| uek_iso_url           | URL to UEK boot iso                  |
-| uek_iso_checksum      | UEK boot iso checksum                |
-| uek_iso_checksum_type | Type of checksum (sha1, sha256, md5) |
-| install_iso_file      | File path to install iso file        |
-| minor_version         | Minor Oracle Linux 6 version (4,5,6) |
+| Variable              | Description                          | Mandatory | Default |
+|-----------------------+--------------------------------------+-----------+---------|
+| uek_iso_url           | URL to UEK boot iso                  | Yes       |         |
+| uek_iso_checksum      | UEK boot iso checksum                | Yes       |         |
+| uek_iso_checksum_type | Type of checksum (sha1, sha256, md5) | Yes       |         |
+| install_iso_file      | File path to install iso file        | Yes       |         |
+| minor_version         | Minor Oracle Linux 6 version (4,5,6) | Yes       |         |
+| http_proxy            | Proxy value                          | No        | None    |
+| headless              | Use virtualbox headless              | No        | False   |
+
 
 For each minor version there is a file defining the variables for that minor version. These files have a common name, distinguished by the minor version number. Likewise the boxes that are output from each build share a common name, distinguished by the minor version number. 
 
 If the minor version is 'N', then the variable files and the box files would be =ol6uN_vars.json= and =ol6uN-minimal-btrfs-uek.box=, respectively (i.e. for minor version 4 the files would be =ol6u5_vars.json and =ol6u4-minimal-btrfs-uek.box=) 
+*** Http\_proxy
+When the =vbguest= plugin attempts to update the VirtualBox Guest Additions it is necessary to access =public-yum.oracle.com=. In some environments this requires that yum be setup with a proxy. Machines will be built for specific environments and proxy values (unfortunately using =http://wpad/wpad.dat= doesn't work with yum).
+
+If the =http_proxy= variable is set to some non-null value (call it =$http_proxy=) then the following entry is made in the =/etc/yum.conf= file:
+#+BEGIN_EXAMPLE
+proxy=$http_proxy
+#+END_EXAMPLE
+Also the proxy is made available to all users by adding this entry to =/etc/profile.d/set-proxy.sh=:
+#+BEGIN_EXAMPLE
+http_proxy=$http_proxy
+#+END_EXAMPLE
+*** headless
+When set to =true= then the VirtualBox build will be performed with no GUI. The default is =false=, which causes the console GUI to be shown during the build.
 ** Building the box
 For minor version N the command to build the box is:
 #+BEGIN_SRC sh
