@@ -4,4 +4,6 @@
     , "uek_iso_checksum_type": "sha1"
     , "install_iso_file": "OracleLinux-R6-U4-Server-x86_64-dvd.iso"
     , "minor_version": "4"
+    , "http_proxy" : "http://www-proxy.us.oracle.com:80"
+    , "headless": "true"
 }
