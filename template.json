@@ -16,10 +16,10 @@
 	    "override": {
 		"virtualbox-iso": {
 		    "scripts": [
+			"scripts/proxy.sh",
 			"scripts/base.sh",
 			"scripts/vagrant.sh",
 			"scripts/virtualbox.sh",
-			"scripts/proxy.sh",
 			"scripts/cleanup.sh"
 		    ]
 		    , "environment_vars": [
