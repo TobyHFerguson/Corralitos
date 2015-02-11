@@ -72,7 +72,7 @@ scp ol6uN-minimal-btrfs-uek.box tobyhfer@tobyhferguson.org:public_html/
 #+END_SRC
 Add the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure(2) do |config|
   config.vm.box = "ol6uN-minimal-btrfs-uek"
   config.vm.box_url = "http://tobyhferguson.org/ol6uN-minimal-btrfs-uek.box"
 end
@@ -81,7 +81,7 @@ end
 Publish by logging in to the account =tobyhferguson= and uploading the box to =ol6uN-minimal-btrfs-uek=
 Add the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure(2) do |config|
   config.vm.box = "tobyhferguson/ol6uN-minimal-btrfs-uek"
 end
 #+END_SRC

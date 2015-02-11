@@ -1,7 +1,4 @@
 #!/bin/bash
-echo DOLLAR ONE BEGIN
-echo $PROXY
-echo DOLLAR ONE END
 if [[ -n $PROXY ]]
 then
     echo "proxy=$PROXY" >>/etc/yum.conf
