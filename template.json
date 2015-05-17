@@ -16,14 +16,10 @@
 	    "override": {
 		"virtualbox-iso": {
 		    "scripts": [
-			"scripts/proxy.sh",
 			"scripts/base.sh",
 			"scripts/vagrant.sh",
 			"scripts/virtualbox.sh",
 			"scripts/cleanup.sh"
-		    ]
-		    , "environment_vars": [
-			"PROXY={{ user `http_proxy` }}"
 		    ]
 		}
 	    }
@@ -34,7 +30,7 @@
 	    "type": "vagrant",
 	    "override": {
 		"virtualbox": {
-		    "output": "ol6u{{ user `minor_version` }}-minimal-btrfs-uek.box"
+		    "output": "ol6u{{ user `minor_version` }}-minimal-lvmi9-uek.box"
 		}
 	    }
 	}
@@ -43,10 +39,10 @@
 	{
 	    "type": "virtualbox-iso",
 	    "boot_command": [
-		"<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart/ks.cfg<enter><wait>"
+		"<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart/lvmi9.cfg<enter><wait>"
 	    ],
 	    "boot_wait": "10s",
-	    "disk_size": 102400,
+	    "disk_size": 50000,
 	    "guest_os_type": "Oracle_64",
 	    "headless": "{{ user `headless` }}",
 	    "http_directory": "http",
@@ -69,7 +65,7 @@
 		["storageattach", "{{.Name}}", "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "none" ]
 		,["closemedium", "dvd", "{{user `install_iso_file`}}"]
 	    ] 
-	    , "vm_name": "ol6u{{ user `minor_version` }}-minimal-btrfs-uek"
+	    , "vm_name": "ol6u{{ user `minor_version` }}-minimal-lvmi9-uek"
 	}
     ]
 }
