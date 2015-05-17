@@ -20,3 +20,6 @@
 /*.org
 *.swp
 *.swo
+log/
+nohup*
+*.orig
