@@ -1,16 +1,16 @@
-#+TITLE: Oracle Linux 6 Minimal BTRFS UEK Build
+#+TITLE: Oracle Linux 6 Minimal LVM UEK Build
 #+STARTUP: showall nohideblocks
 * Overview
 This build will construct (using [[http://packer.io][Packer]]) an Oracle Linux [[http://vagrantup.com][Vagrant]] box with the following properties:
 + Minimal
-+ Btrfs / filesystem
++ LVM / ext4 filesystem
 + UEK
 
 Optionally one can choose to build machines that have an http_proxy setup.
 * Software Required
 You need to install [[http://packer.io][Packer]],  [[http://vagrantup.com][Vagrant]]  and [[http://VirtualBox.org][VirtualBox]] to perform the build.
 
-The software to install Oracle Linux using btrfs as the root file system comes in two isos.
+The software to install Oracle Linux using lvmi9 as the root file system comes in two isos.
 + The boot iso (=x86_64-boot-uek.iso=)can be accessed remotely via http, or downloaded locally (Packer will cache the http downloaded copy locally, so storing locally is only necessary if multiple /different/ builds will use the same iso
 + the install iso (=OracleLinux-R6-UN-Server-x86_64-dvd.iso=, where N is one of 4, 5 or 6) /must/ be downloaded and accessed via the file system (it can be NFS mounted and it can be a symbolic link, but must be accessible as a file on the file system).
 
@@ -34,7 +34,7 @@ The variables are:
 
 For each minor version there is a file defining the variables for that minor version. These files have a common name, distinguished by the minor version number. Likewise the boxes that are output from each build share a common name, distinguished by the minor version number. 
 
-If the minor version is 'N', then the variable files and the box files would be =ol6uN_vars.json= and =ol6uN-minimal-btrfs-uek.box=, respectively (i.e. for minor version 4 the files would be =ol6u5_vars.json and =ol6u4-minimal-btrfs-uek.box=) 
+If the minor version is 'N', then the variable files and the box files would be =ol6uN_vars.json= and =ol6uN-minimal-lvmi9-uek.box=, respectively (i.e. for minor version 4 the files would be =ol6u5_vars.json and =ol6u4-minimal-lvmi9-uek.box=) 
 *** Http\_proxy
 When the =vbguest= plugin attempts to update the VirtualBox Guest Additions it is necessary to access =public-yum.oracle.com=. In some environments this requires that yum be setup with a proxy. Machines will be built for specific environments and proxy values (unfortunately using =http://wpad/wpad.dat= doesn't work with yum).
 
@@ -53,35 +53,35 @@ For minor version N the command to build the box is:
 #+BEGIN_SRC sh
 packer build -var-file=ol6uN_vars.json template.json
 #+END_SRC
-This will build a box in the current directory called =ol6uN-minimal-btrfs-uek.box=
+This will build a box in the current directory called =ol6uN-minimal-lvmi9-uek.box=
 ** Publishing and Using the box
 *** To the local Vagrant system
 Publish thus:
 #+BEGIN_SRC sh
-vagrant box add --force ol6uN-minimal-btrfs-uek ol6uN-minimal-btrfs-uek.box
+vagrant box add --force ol6uN-minimal-lvmi9-uek ol6uN-minimal-lvmi9-uek.box
 #+END_SRC
 Access this box by adding the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
-config.vm.box = "ol6uN-minimal-btrfs-uek"
+config.vm.box = "ol6uN-minimal-lvmi9-uek"
 #+END_SRC
 *** To =tobyhferguson.org=
 (This will only work if you have the keys to =tobyhferguson.org=)
 Publish thus:
 #+BEGIN_SRC sh
-scp ol6uN-minimal-btrfs-uek.box tobyhfer@tobyhferguson.org:public_html/
+scp ol6uN-minimal-lvmi9-uek.box tobyhfer@tobyhferguson.org:public_html/
 #+END_SRC
 Add the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
 Vagrant.configure(2) do |config|
-  config.vm.box = "ol6uN-minimal-btrfs-uek"
-  config.vm.box_url = "http://tobyhferguson.org/ol6uN-minimal-btrfs-uek.box"
+  config.vm.box = "ol6uN-minimal-lvmi9-uek"
+  config.vm.box_url = "http://tobyhferguson.org/ol6uN-minimal-lvmi9-uek.box"
 end
 #+END_SRC
 *** To =Atlas=
-Publish by logging in to the account =tobyhferguson= and uploading the box to =ol6uN-minimal-btrfs-uek=
+Publish by logging in to the account =tobyhferguson= and uploading the box to =ol6uN-minimal-lvmi9-uek=
 Add the following to your =Vagrantfile= to access this box:
 #+BEGIN_SRC ruby
 Vagrant.configure(2) do |config|
-  config.vm.box = "tobyhferguson/ol6uN-minimal-btrfs-uek"
+  config.vm.box = "tobyhferguson/ol6uN-minimal-lvmi9-uek"
 end
 #+END_SRC
