@@ -1,6 +1,6 @@
 {
     "variables": {
-	"uek_iso_url": null
+	"uek_boot_iso_url": null
 	, "uek_iso_checksum": null
 	, "uek_iso_checksum_type": null
 	, "install_iso_file": null
@@ -34,7 +34,7 @@
 	    "type": "vagrant",
 	    "override": {
 		"virtualbox": {
-		    "output": "ol6u{{ user `minor_version` }}-minimal-btrfs-uek.box"
+		    "output": "ol6u{{ user `minor_version` }}-minimal-lvmi9-uek.box"
 		}
 	    }
 	}
@@ -69,7 +69,7 @@
 		["storageattach", "{{.Name}}", "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "none" ]
 		,["closemedium", "dvd", "{{user `install_iso_file`}}"]
 	    ] 
-	    , "vm_name": "ol6u{{ user `minor_version` }}-minimal-btrfs-uek"
+	    , "vm_name": "ol6u{{ user `minor_version` }}-minimal-lvmi9-uek"
 	}
     ]
 }
