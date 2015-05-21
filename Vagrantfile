@@ -57,11 +57,11 @@ Vagrant.configure(2) do |config|
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at
   # https://docs.vagrantup.com/v2/push/atlas.html for more information.
-  config.push.define "atlas" do |push|
-    push.app = "tobyhferguson/ol6u6-minimal-lvm-uek"
-    push.include = "oracle-6-6-x64-virtualbox.box"
-    push.token = "E3faTeR1Eyp13-tydb4QbAxSKeEXHPLWjz6LfmKSK2jG21fqQrwpj95ixVSup9c8Q4k"
-  end
+  #config.push.define "atlas" do |push|
+  #  push.app = "tobyhferguson/ol6u6-minimal-lvm-uek"
+  #  push.include = "oracle-6-6-x64-virtualbox.box"
+  #  push.token = "E3faTeR1Eyp13-tydb4QbAxSKeEXHPLWjz6LfmKSK2jG21fqQrwpj95ixVSup9c8Q4k"
+  #end
 
   # push.path = "oracle-6-5-x64-virtualbox.box"
 
