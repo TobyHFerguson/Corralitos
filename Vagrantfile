@@ -1,3 +1,5 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 Vagrant.configure(2) do |config|
   config.vm.box = "ol6u6-minimal-lvmi9-uek"
   config.vm.box_url = "file:///u01/003-Projects/Corralitos/ol6u6-minimal-lvmi9-uek.box"
