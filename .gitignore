@@ -17,3 +17,6 @@
 /.@__thumb/
 /packer_cache/
 *.sha1sum
+*.swp
+*.orig
+/log/
